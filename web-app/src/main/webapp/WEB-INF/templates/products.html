@@ -82,22 +82,21 @@
 
             <div class=col-md-6">
 <!--                <label for="inputCategory">Product category</label>-->
-                <select id="inputCategory" class="form-control">
+                <select id="productCategory" name="productCategory" class="form-control" th:value="productCategoryName">
                     <option selected th:text="#{choose.category}">Choose category...</option>
-                    <option th:each="productCategory : ${productCategories}"
-                            th:value="${productCategory.productCategoryId}"
-                            th:text="${productCategory.productCategoryName}"</option>
+                    <option th:each="productCategory : ${productCategory}"
+                            th:value="${productCategory.productCategoryName}"></option>
                 </select>
             </div>
 
             <div class="col-md-2">
 <!--                <label for="inputPriceStart">Price from</label>-->
-                <input type="text" class="form-control" id="inputPriceStart" placeholder="from Price">
+                <input type="text" class="form-control" id="priceStart" placeholder="from Price" th:value="priceStart">
             </div>
 
             <div class="col-md-2">
 <!--                <label for="inputPriceEnd">to Price</label>-->
-                <input type="text" class="form-control" id="inputPriceEnd" placeholder="to Price">
+                <input type="text" class="form-control" id="priceEnd" placeholder="to Price" th:value="priceEnd">
             </div>
 
             <div>
@@ -120,10 +119,10 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="product : ${products}" align="center">
-                            <td th:text="${product.productName}">Samsung galaxy s8 plus g955f</td>
-                            <td th:text="${product.productCategoryName}"">Cell phones & Accessories</td>
-                            <td th:text="${product.productPrice}">350.00</td>
+                        <tr th:each="product : ${products}" align="center" th:object="${product}">
+                            <td th:text="*{productName}">Samsung galaxy s8 plus g955f</td>
+                            <td th:text="*{productCategoryName}">Cell phones & Accessories</td>
+                            <td th:text="*{productPrice}">350.00</td>
                             <td class="text-center">
 
                                 <a href="product.html"
