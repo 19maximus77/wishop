@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          th:href="@{https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css}"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+          crossorigin="anonymous">
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+            th:href="@{https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js}"
+            integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+            crossorigin="anonymous"></script>
+
+<!--    href="../../resources/static/css/bootstrap.css"-->
+<!--    th:href="@{/resources/static/css/bootstrap.css}">-->
+
+    <link rel="stylesheet"
+          href="../../resources/static/css/font-awesome.min.css"
+          th:href="@{/resources/static/css/font-awesome.min.css}">
+
+    <title th:text="#{products}">Products</title>
+</head>
+
+
+<header>
+    <nav class="pl-2 navbar navbar-expand-sm navbar-dark bg-dark text-light  p-0">
+        <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <span class="badge badge-success align-middle"><h5 class="align-middle" th:text="#{ishop}">ISHOP</h5></span>
+                    <a href="administrator.html"
+                       align="absmiddle"
+                       class="btn btn-light"
+                       title="Administrator console"
+                       data-placement="right">
+                        <i class="fas fa-user-shield"></i>
+                        <span class="d-none d-sm-inline"></span></a>
+                    <a href="products.html"
+                       th:text="#{products}"
+                       th:href="@{/products}"
+                       button type="button"
+                       class="btn btn-secondary">Products</button></a>
+                    <a href="categories.html"
+                       th:text="#{categories}"
+                       th:href="@{/categories}"
+                       button type="button"
+                       class="btn btn-secondary">Categories</button></a>
+                </div>
+            </ul>
+        </div>
+    </nav>
+</header>
+
+<nav id="main-header"
+     class="py-1 mb-3 navbar navbar-expand-sm navbar-light bg-light text-dark">
+    <span class="navbar-brand text-uppercase mr-auto"><h1>PRODUCTS</h1></span>
+    <span class="navbar-nav float-right">
+            <a href="#"
+               align="absmiddle"
+               class="btn btn-light"
+               title="Add product"
+               data-target="#addProduct"
+               data-toggle="modal"
+               data-placement="left">
+                <i class="fa fa-plus-square fa-3x"></i>
+                <span class="d-none d-sm-inline"></span></a>
+    </span>
+</nav>
+
+<section id="products">
+    <div class="container-fluid">
+
+        <form>
+        <div class="form-row">
+
+            <div class=col-md-6">
+<!--                <label for="inputCategory">Product category</label>-->
+                <select id="inputCategory" class="form-control">
+                    <option selected th:text="#{choose.category}">Choose category...</option>
+                    <option th:each="productCategory : ${productCategories}"
+                            th:value="${productCategory.productCategoryId}"
+                            th:text="${productCategory.productCategoryName}"</option>
+                </select>
+            </div>
+
+            <div class="col-md-2">
+<!--                <label for="inputPriceStart">Price from</label>-->
+                <input type="text" class="form-control" id="inputPriceStart" placeholder="from Price">
+            </div>
+
+            <div class="col-md-2">
+<!--                <label for="inputPriceEnd">to Price</label>-->
+                <input type="text" class="form-control" id="inputPriceEnd" placeholder="to Price">
+            </div>
+
+            <div>
+                <button type="submit" class="btn btn-success mb-2">Select</button>
+            </div>
+
+        </div>
+        </form>
+
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <table class="table table-hover table-borderless" class="align-middle">
+                        <thead class="thead-dark">
+                        <tr align="center">
+                            <th th:text="#{product.name}">Product name</th>
+                            <th th:text="#{product.category}">Category</th>
+                            <th th:text="#{product.price}">Price, USD</th>
+                            <th th:text="#{product.action}">Edit / Delete</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="product : ${products}" align="center">
+                            <td th:text="${product.productName}">Samsung galaxy s8 plus g955f</td>
+                            <td th:text="${product.productCategoryName}"">Cell phones & Accessories</td>
+                            <td th:text="${product.productPrice}">350.00</td>
+                            <td class="text-center">
+
+                                <a href="product.html"
+                                   th:href="@{|/product/${product.productId}|}"
+                                   class="btn-sm btn-outline-secondary"
+                                   title="Edit product"
+                                   data-toggle="tooltip"
+                                   data-placement="left"
+                                    th:title="#{edit_product}"
+                                    th:text="#{edit}">
+                                    <i class="fa fa-pencil"></i> <span class="d-none d-md-inline">Edit</span></a>
+
+                                <span data-toggle="modal"
+                                      data-target="#deleteDialog"
+                                      th:attr="data-id=${product.productId},data-name=${product.productName}">
+                                <a href="#"
+                                   class="btn-sm btn-outline-secondary"
+                                   title="Delete product"
+                                   data-toggle="tooltip"
+                                   data-placement="right"
+                                    th:title="#{delete_product}"
+                                    th:text="#{delete}">
+                                    <i class="fa fa-remove"></i> <span class="d-none d-md-inline">Delete</span></a>
+                                </span>
+
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+<footer class="text-center" style="font-size: 12px">
+    <p></p>
+    &copy Maksim Nechyparenka, 2019
+</footer>
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://kit.fontawesome.com/b72194b912.js"></script>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        th:src="@{https://code.jquery.com/jquery-3.3.1.slim.min.js}"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+        th:src="@{https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js}"
+        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+
+<!--<script src="../../resources/static/js/jquery-3.4.1.slim.min.js"-->
+<!--        th:src="@{/resources/static/js/jquery-3.4.1.slim.min.js}"></script>-->
+<!--<script src="../../resources/static/js/popper.min.js"-->
+<!--        th:src="@{/resources/static/js/popper.min.js}"></script>-->
+<!--<script src="../../resources/static/js/bootstrap.js"-->
+<!--        th:src="@{/resources/static/js/bootatrap.js}"></script>-->
+
+<script>
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
+    $('.dropdown-toggle').dropdown()
+</script>
+
+</body>
+</html>
