@@ -62,12 +62,14 @@
      class="py-1 mb-3 navbar navbar-expand-sm navbar-light bg-light text-dark">
     <span class="navbar-brand text-uppercase mr-auto"><h1>PRODUCTS</h1></span>
     <span class="navbar-nav float-right">
-            <a href="#"
+        <!--               Добавить форму productForm в product.html-->
+        <a href="products.html"
+               th:href="@{/product}"
+               th:onclick="@{product.forms['productForm'].submit(); return false;}"
                align="absmiddle"
                class="btn btn-light"
                title="Add product"
-               data-target="#addProduct"
-               data-toggle="modal"
+               data-toggle="tooltip"
                data-placement="left">
                 <i class="fa fa-plus-square fa-3x"></i>
                 <span class="d-none d-sm-inline"></span></a>
@@ -77,12 +79,20 @@
 <section id="products">
     <div class="container-fluid">
 
-        <form>
+<!--        ФОРМА ДЛЯ ОТБОРА ПРОДУКТОВ ПО КАТЕГОРИИ и ИНТЕРВАЛУ ЦЕН-->
+        <form id="FormSearchProductCategoryPrice"
+              action="products.html"
+              th:object="${productCategory}"
+              th:action="@{${#httpServletRequest.servletPath}}"
+              th:method="post">
 
         <div class="form-row">
             <div class=col-md-6">
+
+<!--                РАЗОБРАТЬСЯ-->
+
 <!--                <label for="inputCategory">Product category</label>-->
-                <select id="productCategory" name="productCategory" class="form-control" th:value="productCategoryId">
+                <select id="productCategory" name="productCategory" class="form-control" th:field="*{productCategoryId}" th:value="productCategoryId">
                     <option selected th:text="#{choose.category}">Choose category...</option>
                     <option th:each="productCategory : ${productCategories}"
                             th:value="${productCategory.productCategoryId}"
@@ -92,16 +102,16 @@
 
             <div class="col-md-2">
 <!--                <label for="inputPriceStart">Price from</label>-->
-                <input type="text" class="form-control" id="priceStart" placeholder="from Price" th:value="priceStart">
+                <input type="text" class="form-control" id="priceStart" placeholder="min Price" th:value="priceStart">
             </div>
 
             <div class="col-md-2">
 <!--                <label for="inputPriceEnd">to Price</label>-->
-                <input type="text" class="form-control" id="priceEnd" placeholder="to Price" th:value="priceEnd">
+                <input type="text" class="form-control" id="priceEnd" placeholder="max Price" th:value="priceEnd">
             </div>
 
             <div>
-                <button type="submit" class="btn btn-success mb-2">Select</button>
+                <button type="submit" class="btn btn-success mb-2" th:href="@{/products}" th:onclick="@{document.forms['FormSearchProductCategoryPrice'].submit(); return false;}">Select</button>
             </div>
 
         </div>
