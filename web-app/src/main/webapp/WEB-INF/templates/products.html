@@ -78,14 +78,15 @@
     <div class="container-fluid">
 
         <form>
-        <div class="form-row">
 
+        <div class="form-row">
             <div class=col-md-6">
 <!--                <label for="inputCategory">Product category</label>-->
-                <select id="productCategory" name="productCategory" class="form-control" th:value="productCategoryName">
+                <select id="productCategory" name="productCategory" class="form-control" th:value="productCategoryId">
                     <option selected th:text="#{choose.category}">Choose category...</option>
-                    <option th:each="productCategory : ${productCategory}"
-                            th:value="${productCategory.productCategoryName}"></option>
+                    <option th:each="productCategory : ${productCategories}"
+                            th:value="${productCategory.productCategoryId}"
+                            th:text="${productCategory.productCategoryName}"></option>
                 </select>
             </div>
 
@@ -119,12 +120,13 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="product : ${products}" align="center" th:object="${product}">
-                            <td th:text="*{productName}">Samsung galaxy s8 plus g955f</td>
-                            <td th:text="*{productCategoryName}">Cell phones & Accessories</td>
-                            <td th:text="*{productPrice}">350.00</td>
-                            <td class="text-center">
+                        <tr th:each="product : ${products}" align="center">
 
+                            <td th:utext="${product.productName}">Samsung galaxy s8 plus g955f</td>
+                            <td th:utext="${product.productCategoryName}">Cell phones & Accessories</td>
+                            <td th:utext="${product.productPrice}">350.00</td>
+
+                            <td class="text-center">
                                 <a href="product.html"
                                    th:href="@{|/product/${product.productId}|}"
                                    class="btn-sm btn-outline-secondary"
@@ -137,7 +139,7 @@
 
                                 <span data-toggle="modal"
                                       data-target="#deleteDialog"
-                                      th:attr="data-id=${product.productId},data-name=${product.productName}">
+                                      th:attr="data-id=${product.productId}, data-name=${product.productName}">
                                 <a href="#"
                                    class="btn-sm btn-outline-secondary"
                                    title="Delete product"
@@ -147,8 +149,8 @@
                                     th:text="#{delete}">
                                     <i class="fa fa-remove"></i> <span class="d-none d-md-inline">Delete</span></a>
                                 </span>
-
                             </td>
+
                         </tr>
                         </tbody>
                     </table>

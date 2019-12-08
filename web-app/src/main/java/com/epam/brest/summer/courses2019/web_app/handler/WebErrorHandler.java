@@ -59,7 +59,7 @@ public class WebErrorHandler {
      *
      * @param resourceException is {@code ResourceAccessException}.
      * @param model model contains information for view rendering
-     * @return the response entity with message of exception.
+     * @return the response page with message of exception.
      */
     @ExceptionHandler(value = ResourceAccessException.class)
     public final String resourceAccessException(ResourceAccessException resourceException, Model model) {
